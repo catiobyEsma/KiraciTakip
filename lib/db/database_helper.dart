@@ -11,17 +11,11 @@ import '../models/receipt.dart';
 import '../models/tenant_note.dart';
 import '../models/contract_change.dart';
 
-/// Uygulamanın tüm verilerini (kiracılar, borç satırları, ödemeler,
-/// dekontlar, notlar, sözleşme geçmişi) cihazın yerel SQLite
-/// veritabanında saklayan sınıf. Tamamen çevrimdışı çalışır; hiçbir veri
-/// internete gönderilmez.
+
 class DatabaseHelper {
   DatabaseHelper._internal();
   static final DatabaseHelper instance = DatabaseHelper._internal();
 
-  /// Şema sürümü. v1 -> v2 geçişinde depozito, stopaj, hatırlatma
-  /// alanları ile notlar ve sözleşme geçmişi tabloları eklenir.
-  /// Mevcut kayıtlarınız korunur, hiçbir veri silinmez.
   static const int _dbVersion = 2;
 
   static Database? _database;
@@ -151,9 +145,6 @@ class DatabaseHelper {
     ''');
   }
 
-  /// Eski veritabanlarını (v1) yeni sürüme taşır. Var olan kiracı,
-  /// ödeme ve dekont kayıtlarına dokunulmaz; yalnızca yeni sütunlar ve
-  /// tablolar eklenir.
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
     if (oldVersion < 2) {
       final existing = await db.rawQuery('PRAGMA table_info(tenants)');
@@ -177,9 +168,6 @@ class DatabaseHelper {
     }
   }
 
-  // ---------------------------------------------------------------------
-  // TENANTS
-  // ---------------------------------------------------------------------
 
   Future<int> insertTenant(Tenant tenant) async {
     final db = await database;
@@ -194,8 +182,7 @@ class DatabaseHelper {
 
   Future<int> deleteTenant(int id) async {
     final db = await database;
-    // İlişkili borç satırları, ödemeler, dekontlar, notlar ve sözleşme
-    // geçmişi de silinir.
+
     await db.delete('due_payments', where: 'tenantId = ?', whereArgs: [id]);
     await db.delete('payment_records', where: 'tenantId = ?', whereArgs: [id]);
     await db.delete('receipts', where: 'tenantId = ?', whereArgs: [id]);
@@ -217,9 +204,6 @@ class DatabaseHelper {
     return Tenant.fromMap(maps.first);
   }
 
-  // ---------------------------------------------------------------------
-  // DUE PAYMENTS (Yapılması Gereken Ödemeler)
-  // ---------------------------------------------------------------------
 
   Future<int> insertDuePayment(DuePayment duePayment) async {
     final db = await database;
@@ -252,10 +236,6 @@ class DatabaseHelper {
     return maps.map((m) => DuePayment.fromMap(m)).toList();
   }
 
-  // ---------------------------------------------------------------------
-  // PAYMENT RECORDS (Yapılan Ödemeler)
-  // ---------------------------------------------------------------------
-
   Future<int> insertPaymentRecord(PaymentRecord record) async {
     final db = await database;
     return await db.insert('payment_records', record.toMap()..remove('id'));
@@ -285,10 +265,7 @@ class DatabaseHelper {
     return maps.map((m) => PaymentRecord.fromMap(m)).toList();
   }
 
-  // ---------------------------------------------------------------------
-  // RECEIPTS (Dekontlar)
-  // ---------------------------------------------------------------------
-
+ 
   Future<int> insertReceipt(Receipt receipt) async {
     final db = await database;
     return await db.insert('receipts', receipt.toMap()..remove('id'));
@@ -306,10 +283,7 @@ class DatabaseHelper {
     return maps.map((m) => Receipt.fromMap(m)).toList();
   }
 
-  // ---------------------------------------------------------------------
-  // TENANT NOTES (Kiracı Notlar Paneli)
-  // ---------------------------------------------------------------------
-
+  
   Future<int> insertTenantNote(TenantNote note) async {
     final db = await database;
     return await db.insert('tenant_notes', note.toMap()..remove('id'));
@@ -326,7 +300,6 @@ class DatabaseHelper {
     return await db.delete('tenant_notes', where: 'id = ?', whereArgs: [id]);
   }
 
-  /// Sabitlenmiş notlar en üstte, sonra en yeni not en üstte olacak şekilde.
   Future<List<TenantNote>> getNotesForTenant(int tenantId) async {
     final db = await database;
     final maps = await db.query('tenant_notes',
@@ -336,9 +309,6 @@ class DatabaseHelper {
     return maps.map((m) => TenantNote.fromMap(m)).toList();
   }
 
-  // ---------------------------------------------------------------------
-  // CONTRACT CHANGES (Sözleşme Uzatma Geçmişi)
-  // ---------------------------------------------------------------------
 
   Future<int> insertContractChange(ContractChange change) async {
     final db = await database;

@@ -4,10 +4,6 @@ import '../models/tenant.dart';
 import '../models/due_payment.dart';
 import '../utils/currency_utils.dart';
 
-/// Ekran görüntüsündeki "Kiracı: DUYGU K." + "Ödemesi Gereken Tutar / Tarih"
-/// tablosunun (MacBook Air - 3/4) birebir karşılığı. Kullanıcı burada
-/// "Yapılması Gereken Ödemeler" satırlarını elle ekleyip, düzenleyip,
-/// silip "Kaydet" ile veritabanına yazabilir.
 class EditDuePaymentsScreen extends StatefulWidget {
   final Tenant tenant;
   const EditDuePaymentsScreen({super.key, required this.tenant});
@@ -17,7 +13,7 @@ class EditDuePaymentsScreen extends StatefulWidget {
 }
 
 class _RowData {
-  int? id; // null ise henüz kaydedilmemiş yeni satır
+  int? id; 
   final TextEditingController amountCtrl;
   DateTime? rangeStart;
   DateTime? rangeEnd;

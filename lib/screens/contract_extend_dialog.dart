@@ -5,10 +5,6 @@ import '../models/tenant.dart';
 import '../utils/contract_utils.dart';
 import '../utils/currency_utils.dart';
 
-/// "Sözleşme Uzat" diyaloğu. Sözleşme bitiş tarihini ileriye alır,
-/// isterse kirayı günceller ve uzatılan dönem için aylık ödeme
-/// takvimini (Yapılması Gereken Ödemeler) otomatik üretir.
-/// Geçmiş borç satırlarına ve ödemelere dokunulmaz.
 class ContractExtendDialog extends StatefulWidget {
   final Tenant tenant;
   const ContractExtendDialog({super.key, required this.tenant});
@@ -31,8 +27,7 @@ class _ContractExtendDialogState extends State<ContractExtendDialog> {
   void initState() {
     super.initState();
     final t = widget.tenant;
-    // Varsayılan: mevcut bitiş tarihinden 1 yıl sonrası. Sözleşme çoktan
-    // bitmişse bugünden 1 yıl sonrası.
+
     final base = t.contractEnd.isBefore(DateTime.now()) ? DateTime.now() : t.contractEnd;
     _newEnd = DateTime(base.year + 1, base.month, base.day);
     _rentCtrl = TextEditingController(text: formatAmountForInput(t.monthlyRent));
@@ -47,7 +42,6 @@ class _ContractExtendDialogState extends State<ContractExtendDialog> {
     super.dispose();
   }
 
-  /// Yüzde kutusuna girilen orana göre yeni kirayı hesaplayıp kutuya yazar.
   void _applyIncrease() {
     final pct = double.tryParse(_increaseCtrl.text.trim().replaceAll(',', '.'));
     if (pct == null) return;
@@ -85,9 +79,7 @@ class _ContractExtendDialogState extends State<ContractExtendDialog> {
     final t = widget.tenant;
 
     if (_generateDues) {
-      // Uzatılan dönem, mevcut son borç satırından (ya da eski bitiş
-      // tarihinden, hangisi daha ileriyse) bir gün sonra başlar; böylece
-      // aynı ay için ikinci bir satır oluşmaz.
+
       final existing = await _db.getDuePaymentsForTenant(t.id!);
       DateTime anchor = t.contractEnd;
       if (existing.isNotEmpty) {

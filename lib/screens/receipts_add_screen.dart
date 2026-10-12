@@ -9,10 +9,6 @@ import '../db/database_helper.dart';
 import '../models/receipt.dart';
 import '../models/tenant.dart';
 
-/// "Dekont Ekle" ekranı. Kullanıcı bir kiracı seçer, cihazından bir
-/// fotoğraf (veya PDF) seçer; dosya uygulamanın kendi belgeler
-/// klasörüne kopyalanarak cihaz hafızasında kalıcı olarak saklanır ve
-/// veritabanına kiracıyla ilişkili olarak kaydedilir.
 class ReceiptsAddScreen extends StatefulWidget {
   final Tenant? initialTenant;
   final List<Tenant> tenants;
@@ -37,16 +33,7 @@ class _ReceiptsAddScreenState extends State<ReceiptsAddScreen> {
     _selectedTenant = widget.initialTenant;
   }
 
-  /// Fotoğraf seçmek için dosya seçiciyi açar. `FileType.any` kullanıyoruz
-  /// çünkü `FileType.image` / `FileType.custom` + uzantı filtresi bazı
-  /// macOS sürümlerinde UTType eşleşme sorunları yüzünden diyalog
-  /// penceresinin hiç açılmamasına ya da dosyaların gri (seçilemez)
-  /// görünmesine sebep olabiliyor. Bunun yerine tüm dosyalara izin verip
-  /// seçim sonrası uzantıyı kendimiz kontrol ediyoruz — çok daha güvenilir.
-  /// `withData: true` ile dosyanın baytlarını da isteriz; böylece macOS'un
-  /// App Sandbox'ı seçilen dosyanın orijinal yoluna sonradan erişimi
-  /// kısıtlasa bile elimizdeki baytları doğrudan diske yazarak dekontu
-  /// kaydedebiliriz.
+
   Future<void> _pickImage() async {
     if (!await _prepareImageAccess()) return;
     await _runPicker(
@@ -204,7 +191,7 @@ class _ReceiptsAddScreenState extends State<ReceiptsAddScreen> {
       print('[DEKONT] Seçici kapandı. Sonuç: '
           '${result == null ? "null (iptal edildi ya da hiç açılmadı)" : "${result.files.length} dosya seçildi"}');
       if (result == null || result.files.isEmpty) {
-        // Kullanıcı diyaloğu iptal etti ya da hiçbir dosya seçmedi.
+
         return;
       }
       final file = result.files.single;
@@ -245,7 +232,7 @@ class _ReceiptsAddScreenState extends State<ReceiptsAddScreen> {
     setState(() => _saving = true);
 
     try {
-      // Dosyayı uygulamanın kalıcı belgeler klasörüne kopyala (cihaz hafızası).
+
       final appDocDir = await getApplicationSupportDirectory();
       final receiptsDir = Directory(p.join(appDocDir.path, 'KiraciTakip',
           'Dekontlar', 'kiraci_${_selectedTenant!.id}'));
@@ -259,7 +246,7 @@ class _ReceiptsAddScreenState extends State<ReceiptsAddScreen> {
       final destPath = p.join(receiptsDir.path, fileName);
 
       if (picked.bytes != null) {
-        // En güvenilir yol: seçilen dosyanın baytlarını doğrudan yaz.
+
         await File(destPath).writeAsBytes(picked.bytes!);
       } else if (picked.path != null) {
         await File(picked.path!).copy(destPath);

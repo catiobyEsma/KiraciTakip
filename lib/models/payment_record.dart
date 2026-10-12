@@ -1,11 +1,8 @@
-/// "Yapılan Ödeme" - kiracının fiilen yatırdığı bir ödemeyi temsil eder.
-/// Bir [DuePayment]'a (belirli bir ay/borç satırına) bağlanabilir; bağlı
-/// olduğu borç satırı tamamen kapanana kadar birden fazla kısmi ödeme
-/// eklenebilir (screenshot 2'deki Mayıs/Haziran örneklerinde olduğu gibi).
+
 class PaymentRecord {
   int? id;
   int tenantId;
-  int? duePaymentId; // Hangi borç satırına ait olduğu (null ise serbest ödeme)
+  int? duePaymentId;
   DateTime paidDate;
   double paidAmount;
   String note;

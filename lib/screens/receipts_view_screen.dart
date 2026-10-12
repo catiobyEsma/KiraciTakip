@@ -7,10 +7,6 @@ import '../models/receipt.dart';
 import '../models/tenant.dart';
 import '../utils/currency_utils.dart';
 
-/// "Dekontları Görüntüle" ekranı. Kiracı seçilir, o kiracıya ait tüm
-/// dekont/fotoğraf kayıtları küçük resimler (thumbnail) halinde
-/// listelenir. Bir dekonta tıklanınca büyük halde görüntülenir ve
-/// silinebilir.
 class ReceiptsViewScreen extends StatefulWidget {
   final Tenant? initialTenant;
   final List<Tenant> tenants;

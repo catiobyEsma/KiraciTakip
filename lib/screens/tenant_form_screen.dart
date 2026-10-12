@@ -5,15 +5,8 @@ import '../utils/contract_utils.dart';
 import '../utils/currency_utils.dart';
 import '../utils/withholding_utils.dart';
 
-/// Kiracı oluşturma ve düzenleme ekranı.
-/// Yeni kiracı oluşturulurken, sözleşme başlangıç/bitiş tarihleri ve
-/// aylık kira tutarına göre "Yapılması Gereken Ödemeler" tablosu
-/// otomatik olarak üretilir (her ay için bir satır).
-///
-/// Depozito, stopaj ve sözleşme bitiş hatırlatması ayarları tamamen
-/// kiracı bazlıdır; her kiracı için ayrı ayrı belirlenir.
 class TenantFormScreen extends StatefulWidget {
-  final Tenant? tenant; // null ise yeni kayıt, doluysa düzenleme
+  final Tenant? tenant; 
   const TenantFormScreen({super.key, this.tenant});
 
   @override
@@ -291,7 +284,7 @@ class _TenantFormScreenState extends State<TenantFormScreen> {
                       return null;
                     },
                     enabled:
-                        !_isEditing, // düzenlemede geçmiş borç satırları etkilenmesin diye kilitli
+                        !_isEditing,
                     onChanged: (_) => setState(() {}),
                   ),
                   if (_isEditing)

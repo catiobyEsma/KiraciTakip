@@ -6,11 +6,11 @@ class Tenant {
   DateTime contractEnd; // Sözleşme / kiracılık bitiş tarihi
   double monthlyRent; // Aylık kira tutarı (varsayılan, yapılması gereken ödeme üretirken kullanılır)
   int paymentDay; // Ayın kaçında ödeme yapılması gerektiği (1-31)
-  String phone; // Telefon (opsiyonel)
+  String phone; // Telefon 
   String notes; // Notlar
   String? propertyAddress; // Kiralanan mülkün adresi (opsiyonel)
 
-  // Ekstra kiracı bazlı alanlar: depozito, stopaj, sözleşme hatırlatması
+ 
   double depositAmount;
   DateTime? depositReceivedDate;
   DateTime? depositReturnedDate;

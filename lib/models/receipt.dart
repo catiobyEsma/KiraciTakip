@@ -1,12 +1,10 @@
-/// "Dekont" - kiracının banka dekontu / makbuz fotoğrafı gibi kanıt
-/// belgelerini temsil eder. Dosyalar uygulamanın kendi belgeler klasörüne
-/// kopyalanır, böylece cihaz hafızasında kalıcı olarak saklanır.
+
 class Receipt {
   int? id;
   int tenantId;
-  String filePath; // Cihazdaki yerel dosya yolu
+  String filePath; 
   DateTime addedDate;
-  String description; // Örn: "Mayıs ayı kira dekontu"
+  String description;
 
   Receipt({
     this.id,

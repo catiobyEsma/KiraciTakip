@@ -11,12 +11,6 @@ import '../widgets/tenant_notes_panel.dart';
 import 'add_payment_dialog.dart';
 import 'contract_extend_dialog.dart';
 
-/// Bir kiracının tam ödeme dökümünü gösteren ekran.
-///  - Üstte sözleşme / depozito / stopaj özeti ve tarih aralığı seçici
-///  - Yapılması Gereken Ödemeler / Yapılan Ödemeler iki sütunlu liste
-///    (ileri tarihli aylar da görünür, ama soluk ve "vadesi gelmedi" etiketli)
-///  - Alt kısımda toplamlar; kalan borç YALNIZCA bugüne kadar vadesi
-///    gelmiş satırlardan hesaplanır.
 class TenantDetailScreen extends StatefulWidget {
   final Tenant tenant;
   const TenantDetailScreen({super.key, required this.tenant});
@@ -267,9 +261,9 @@ class _TenantDetailScreenState extends State<TenantDetailScreen> {
     );
   }
 
-  // -------------------------------------------------------------------
+
   // Sözleşme + Depozito + Stopaj özeti
-  // -------------------------------------------------------------------
+
   Widget _contractAndDepositCard() {
     final t = _tenant;
     final days = t.daysUntilContractEnd();
@@ -396,9 +390,7 @@ class _TenantDetailScreenState extends State<TenantDetailScreen> {
     );
   }
 
-  // -------------------------------------------------------------------
-  // Alt toplam kartı
-  // -------------------------------------------------------------------
+
   Widget _summaryCard(TenantPaymentReport report) {
     final t = _tenant;
     final whDue = calcWithholdingForTenant(t, report.totalDue);
@@ -506,7 +498,7 @@ class _DueRowTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final d = row.duePayment;
-    // İleri tarihli satırlar listede görünür ama soluk gösterilir.
+
     final opacity = row.isFuture ? 0.55 : 1.0;
 
     return Opacity(

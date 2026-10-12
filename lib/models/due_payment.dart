@@ -1,13 +1,10 @@
-/// "Yapılması Gereken Ödeme" satırı - kiracının o ay/dönem için ödemesi
-/// gereken tutarı ve tarihini temsil eder. Kiracı oluşturulurken sözleşme
-/// tarihleri arasında otomatik üretilir, ayrıca "Ödemeleri Düzenle"
-/// ekranından elle satır eklenip düzenlenebilir/silinebilir.
+
 class DuePayment {
   int? id;
   int tenantId;
   DateTime dueDate; // Ödemenin yapılması gereken tarih
   double dueAmount; // Ödenmesi gereken tutar
-  String description; // Örn: "Nisan Ayı Kirası"
+  String description; 
 
   DuePayment({
     this.id,
