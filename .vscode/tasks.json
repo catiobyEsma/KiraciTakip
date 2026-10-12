@@ -1,0 +1,21 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Uygulamayı Paketle (Windows .exe)",
+      "type": "shell",
+      "command": "flutter build windows --release",
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Uygulamayı Paketle (macOS .app)",
+      "type": "shell",
+      "command": "flutter build macos --release",
+      "problemMatcher": []
+    }
+  ]
+}
